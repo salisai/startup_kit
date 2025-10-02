@@ -1,0 +1,135 @@
+Clerk: 
+---------
+User authentication and management tool. 
+
+Auth0 - too enterprise-y, bloated 
+Firebase auth - simple but limited 
+NextAuth - open-source, DIY, more work 
+Clerk - modern, dev-friendly, quick-to-migrate, beautiful UI
+
+Best for security issues also. 
+Don't use when projects are very small. 
+
+Core features: 
+----------------
+1. Authentication: 
+2. User management
+- Clerk gives you userId - link it with your own User tabld in Prisma/SQL. 
+- Store the business-specific data like subscription status, roles, preferences in DB not Clerk 
+
+3. Role based auth 
+4. Sessions: clerk manages secure sessions, JWT tokens, refresh cycles for you. 
+5. Webhooks: User deleted in Clerk, remove from your DB automatically 
+
+Clerk = Identity provider 
+It knows who the user is, it secures their session, it stores only auth-related info. 
+
+Your DB = business logic source 
+
+CLerk handles who are you? 
+DB handles what can you do? 
+
+Best practices: 
+---------------
+1. Always sync clerk users into user DB. 
+ - First time user signs up, create a record in your DB. Store things like role, plan etc. Don't overload Clerk with custom fields. 
+
+2. Middleware for protection: add route Middleware to check auth()
+3. Secure backend APIs
+ - Never trust client-side userId 
+ - always validate autu() or Clerk JWT in your API routes before touching DB. 
+
+4. custom UI 
+5. Plan for vendor lock-in 
+- Clerk is great, but clients may fear dependency. 
+- Keep your business logic in your DB, so swapping Clerk later is easier. 
+
+6. Use clerk components early, customize later 
+
+
+
+Prisma: 
+====================
+ORM - Object relational mapper for nodejs and typescript 
+Instead of writing raw SQL queries, you use a type-safe JS/TS API 
+It supports Postgresql, mongodb, sqlite, sql server, etc 
+It makes working with DBs feel like working with objects in JS. 
+
+When to use it? 
+---------------
+For speed. 
+You are using Typescript, as it gives auto-complete, type safety 
+
+Prisma supports Mongo but feels unnatural, don't use. 
+
+
+Features: 
+--------------
+1. Prisma schema:  define models 
+2. Prisma Client: npx prisma generate 
+3. Migrations: npx prisma migrate dev - updates DB safely. 
+4. Relations (the real power)
+5. Middleware and transactions: run logic before and after queies 
+6. Prisma studio
+
+Fronend -> API -> prisma -> DB 
+
+
+NeonDB: 
+-------------
+Neon is a serverless Postgres database. 
+Serverless means you don't manage VMs/containers. It scales up/down auto. 
+Just like Git branches, you can make DB branches 
+
+When to use? 
+-----------
+Neon has slightely higher latency then self-hosted Postgres 
+
+Core features: 
+--------------
+1. Serverless - pay only for what you use 
+2. Branching - 
+3. Connection pooler - 
+
+Neon - DB layer 
+Prisma - ORM layer 
+Clerk - AUth Layer 
+Nextjs - App Layer 
+
+
+
+
+Stripe: 
+----------
+Flow of stripe 
+1. Client - requests a payment from the server 
+2. Server - calls Stripe API to create a payment intent/subscription 
+3. Stripe - securely handles the actual payment 
+4. Webhook - stripe notifies you about payment status(success, failure etc)
+
+Never trust the client for payments, always verify with Stripe's webhook. 
+
+Use cases: 
+----------
+One time payment 
+Recurring subscriptions 
+Usage-based billing - charging based on API calls/credits 
+Marketplaces - 
+
+
+
+Supabase: 
+-----------
+On top of Postgres 
+It gives you 
+- DB - Postgres instance 
+- Auth 
+- Storage - files 
+- APIs - auto-generated REST and GraphQL APIs on your DB 
+- Realtime - Listen to DB changes in realtime 
+- Edge functions - 
+
+Instead of setting up Prisma + cloudinary + AWS you can sometimes just use supabase alone 
+
+supabase give you an instant API for every table you create. 
+Enable RLS from day 1. 

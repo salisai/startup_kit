@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 
+
 export async function POST(){
     const { userId } = await auth()
 
@@ -23,7 +24,7 @@ export async function POST(){
         const updatedUser = await prisma.user.update({
             where: {id: userId},
             data: {
-                isSubsribed: true,
+                isSubscribed: true,
                 subscriptionEnds: subscriptionEnds,
             }
         });
