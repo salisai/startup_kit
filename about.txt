@@ -139,58 +139,39 @@ Enable RLS from day 1.
 
 Nextjs project strucutre: 
 -------------------------
-/project-root
-├── .env                     # Local environment variables
-├── .env.example             # Example for collaborators
-├── prisma/
-│   ├── schema.prisma        # Prisma schema (source of truth)
-│   └── migrations/          # Migration history
-├── app/                     # Next.js App Router
-│   ├── layout.tsx           # Root layout (global providers, theme, nav)
-│   ├── page.tsx             # Landing page
-│   ├── (marketing)/         # Public-facing pages
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │   └── pricing/page.tsx
-│   ├── (dashboard)/         # Protected app routes
-│   │   ├── layout.tsx
-│   │   ├── page.tsx         # Dashboard home
-│   │   ├── settings/page.tsx
-│   │   └── projects/page.tsx
-│   └── api/                 # Route handlers (serverless APIs)
-│       ├── auth/
-│       │   └── callback/route.ts
-│       ├── projects/
-│       │   ├── route.ts
-│       │   └── [id]/route.ts
-│       └── users/route.ts
-├── components/              # Reusable UI components
-│   ├── ui/                  # shadcn components
-│   ├── layouts/             # Layout wrappers (DashboardLayout, etc.)
-│   ├── forms/               # Form components
-│   └── shared/              # Navbar, Sidebar, Footer
-├── lib/                     # Core helpers
-│   ├── prisma.ts            # Prisma client singleton
-│   ├── auth.ts              # Clerk auth utilities
-│   ├── validations.ts       # Zod validation schemas
-│   ├── api-response.ts      # Standard API response formatter
-│   └── utils.ts             # Generic utils
-├── hooks/                   # Custom React hooks
-│   └── useDebounce.ts
-├── context/                 # React contexts
-│   └── ThemeProvider.tsx
-├── services/                # Business logic (db queries, services)
-│   ├── user.service.ts
-│   ├── project.service.ts
-│   └── billing.service.ts
-├── types/                   # Global TS types
-│   └── index.d.ts
-├── config/                  # App-wide configs
-│   └── site.ts              # SEO + branding constants
-├── styles/
-│   └── globals.css          # TailwindCSS entry
-├── middleware.ts            # Clerk middleware (auth protection)
-├── package.json
-├── tsconfig.json
-├── tailwind.config.ts
-└── README.md
+
+
+
+PRISMA - zero to hero 
+---------------------
+ORM - object relational mapper 
+Modern, type-safe, fast(uses RUST query engine), developer friendly. 
+
+Setup: 
+-----
+install 
+init 
+
+configure env. 
+
+Define the schema 
+Run migration - npm prisma migrate dev --name init 
+Use the prisma functions in code 
+
+Schema deep dive: 
+-----------------
+Model fields - @id, @default, @unique, @updatedAt 
+relations 
+Enums, JSON, arrays 
+
+
+Queries like pro: 
+-----------------
+CRUD is basic 
+Creation, updation deletion, transactions. 
+
+
+Architecture in Big projects: 
+-----------------------------
+
+

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { List, Clock, Github, Twitter, Facebook, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import Footer from "@/components/layout/Footer";
 
 export default async function Home() {
   const { userId } =await auth();
@@ -111,43 +112,7 @@ export default async function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-muted py-8">
-        <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex justify-center space-x-6 mb-4 md:mb-0">
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              <span className="sr-only">GitHub</span>
-              <Github className="h-8 w-8" />
-            </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              <span className="sr-only">Twitter</span>
-              <Twitter className="h-8 w-8" />
-            </a>
-            <a
-              href="#"
-              className="text-muted-foreground hover:text-primary transition-colors"
-            >
-              <span className="sr-only">Facebook</span>
-              <Facebook className="h-8 w-8" />
-            </a>
-          </div>
-          <p className="text-center text-sm text-muted-foreground">
-            &copy; 2023 TodoMaster. All rights reserved. |{" "}
-            <Link href="/privacy" className="hover:underline">
-              Privacy Policy
-            </Link>{" "}
-            |{" "}
-            <Link href="/terms" className="hover:underline">
-              Terms of Service
-            </Link>
-          </p>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 }

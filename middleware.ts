@@ -5,65 +5,37 @@ import { clerkClient } from '@clerk/nextjs/server';
 
 const publicRoutes = createRouteMatcher([
   "/",
-  "/api/webhooks/register",
+  "/about",
+  "/pricing",
   "/signup(.*)",
-  "/signin(.*)"
+  "/signin(.*)",
 ]);
 
-const adminOnlyRoutes = createRouteMatcher([
-  "/admin(.*)"
-])
+//will add admin later
 
 const protectedRoutes = createRouteMatcher([
   "/dashboard(.*)",
-  "/admin(.*)"
+  "/api/tasks(.*)",
+  "/api/ai(.*)",
 ])
 
-export default clerkMiddleware(async(auth, req) => {
-  const { userId, redirectToSignIn} = await auth();
 
+export default clerkMiddleware(async (auth, req) => {
+  const { userId, redirectToSignIn} = await auth();
   const path = req.nextUrl.pathname;
+
 
   //if user if not signed in and route is protected, force login
   if(!userId && protectedRoutes(req)){
     return redirectToSignIn()
   }
 
-  //if user is signed in 
-  if(userId){
-    //fetch metadata (role etc)
-    let role: string | undefined = undefined;
-    
-    try {
-      const client = await clerkClient();
-      const user = await client.users.getUser(userId);
-      role = user.publicMetadata.role as string | undefined;
-    
-    } catch (error) {
-      console.error("Error fetching user in middleware: ", error)
-      //force logout
-      return NextResponse.redirect(new URL("/error", req.url));
-    }
-
-
-    //if user tries to got to an admin route but they aren't admin
-    if(adminOnlyRoutes(req) && role != "admin"){
-      return NextResponse.redirect(new URL("/dashboard", req.url));
-    }
-
-    //if user is admin and they go to /dashboard, redirect them to admin dashboard
-    if(path === "/dashboard" && role === "admin"){
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-    }
-
-    //if the route is public and user is logged in, redirect to their "home"
-    if (publicRoutes(req)) {
-      const target = role === "admin" ? "/admin/dashboard" : "/dashboard";
-      return NextResponse.redirect(new URL(target, req.url));
-    }  
+  //if user is signed in, automatically take them to their dashbaord
+  if(userId && publicRoutes(req)){
+    return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
-  //if nothing special, allow request to continue 
+  //otherwise, continue as normal
   return NextResponse.next();
 })
 
@@ -74,4 +46,4 @@ export const config = {
     "/", 
     "/(api|trpc)(.*)"
   ],
-}
+};

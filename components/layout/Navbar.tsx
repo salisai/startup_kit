@@ -25,7 +25,7 @@ import clsx from "clsx";
 export default function Navbar() {
   const { user } = useUser();//current logged-in user 
   const { signOut } = useClerk();
-  const pathname = usePathname();//current page
+  const pathname = usePathname();//current path
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
