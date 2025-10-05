@@ -25,7 +25,6 @@ model User {
   role String @default("user")
 
   stripeCustomerId String? @unique
-  subscriptionId String? @unique
   subscriptionStatus String? 
   currentPeriodEnd DateTime?
 
@@ -54,34 +53,34 @@ model Task {
 model Plan{
   id String @id @default(cuid())
   name String 
-  stripePriceId String @unique//from stripe dashboard 
-  stripeProductId String @unique 
-  amount Int 
+  stripePriceId String? @unique//from stripe dashboard 
+  stripeProductId String? @unique 
+  amount Int @default(0)
   currency String @default("usd")
-  interval String 
+  interval String @default("month")
   features String[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
   subscriptions Subscription[]
 }
 
-
-
 model Subscription{
   id String @id @default(cuid())
-  stripeSubId String @unique
+  stripeSubId String? @unique
   status String 
-  currentPeriodStart DateTime 
-  currentPeriodEnd DateTime 
+  currentPeriodStart DateTime?
+  currentPeriodEnd DateTime?
   cancelAtPeriodEnd Boolean @default(false)
-  planId String 
+
+  planId String?
   userId String 
-  planType PlanType
+  planType PlanType @default(FREE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  plan Plan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  plan Plan? @relation(fields: [planId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
